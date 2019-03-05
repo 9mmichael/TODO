@@ -20,6 +20,8 @@ class MainAdapter(private val itemList: MutableList<TodoItem>) : RecyclerView.Ad
         mView.itemRemoveButton.visibility = View.VISIBLE
         mView.itemRemoveButton.setOnClickListener {
           removeListItem(itemList, mView.layoutPosition)
+          val fragment = MainFragment.newInstance()
+          fragment.saveList(itemList, parent.context)
         }
       }
       else {
@@ -34,11 +36,12 @@ class MainAdapter(private val itemList: MutableList<TodoItem>) : RecyclerView.Ad
     holder: MainViewHolder,
     position: Int
   ) {
+    holder.itemCheckBox.isChecked = itemList.get(position).isChecked
     holder.itemText.text = itemList.get(position).itemText
   }
 
   override fun getItemCount(): Int {
-    return itemList.count()
+      return itemList.count()
   }
 
   fun removeListItem(mutableList: MutableList<TodoItem>, index: Int) {
